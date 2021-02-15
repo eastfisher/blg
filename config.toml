@@ -1,5 +1,15 @@
 # The URL the site will be built for
 base_url = "https://eastfisher.github.io/blg"
+title = "My Blogs"
+description = "This is the homepage of my blogs"
+generate_feed = true
+
+theme = "even"
+# theme = "anpu"
+taxonomies = [
+    { name = "categories", rss = true },
+    { name = "tags", rss = true },
+]
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -10,7 +20,22 @@ build_search_index = true
 [markdown]
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = false
+highlight_code = true
 
 [extra]
 # Put all your custom variables here
+anpu_date_format="%e %B %Y"
+anpu_menu_links = [
+    {url = "$BASE_URL", name = "Home"},
+    {url = "$BASE_URL/categories", name = "Categories"},
+    { url = "$BASE_URL/about/", name = "About" },
+    { url = "$BASE_URL/tags/", name = "Tags" },
+]
+
+even_title = "My Blogs"
+even_menu = [
+    {url = "$BASE_URL", name = "Home"},
+    {url = "$BASE_URL/categories", name = "Categories"},
+    {url = "$BASE_URL/tags", name = "Tags"},
+    {url = "$BASE_URL/about", name = "About"},
+]
