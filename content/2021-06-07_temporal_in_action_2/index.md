@@ -7,16 +7,3 @@ draft = true
 tags = ["Temporal", "Workflow"]
 categories = ["Blog"]
 +++
-
-a
-
-<!-- more -->
-
-## 背景
-
-## 参考资料
-
-- https://temporal.io/usecases
-- https://docs.temporal.io/docs/concepts/introduction
-- https://docs.temporal.io/docs/glossary
-- https://github.com/temporalio/samples-go/tree/master/expense
