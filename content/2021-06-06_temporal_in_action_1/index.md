@@ -122,7 +122,7 @@ helloworld示例相对比较简单, 其中包含`worker`和`starter`. worker即�
 
 整个流程如下图所示:
 
-```mermaid
+{% mermaid() %}
 sequenceDiagram
     participant st as Starter
     participant w as Worker
@@ -134,7 +134,7 @@ sequenceDiagram
     w->>w: Running
     w->>s: Report Result
     s->>st: Result
-```
+{% end %}
 
 Temporal的SDK还是比较容易上手的, 作为开发者, 使用Temporal编写跨服务的工作流是一件轻松愉快的事: 将流程声明好, 将实现定义好, 剩下的交给Temporal.
 

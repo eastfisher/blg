@@ -11,3 +11,8 @@
   </script>
 </div>
 {% endblock page_before_footer %}
+{% block js_body %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+{% endblock js_body %}
