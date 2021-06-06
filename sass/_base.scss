@@ -41,8 +41,8 @@ img {
 }
 
 pre {
-  display: block;
-  padding: 1rem;
+  display: inline;
+  padding: 0rem;
 }
 
 pre, code {
@@ -57,7 +57,7 @@ pre > code {
   display: block;
   border: none;
   font-style: normal;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 iframe {
