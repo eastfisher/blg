@@ -47,9 +47,25 @@ categories = ["Blog"]
 
 ### 应用场景
 
+#### 微服务流程编排
+
+#### 分布式事务
+
+#### 长耗时任务
+
 ### 核心概念
 
+#### Workflow
+
+#### Activity
+
+#### Worker
+
+#### Signal
+
 ### 使用示例
+
+expense为例.
 
 ## 参考资料
 
