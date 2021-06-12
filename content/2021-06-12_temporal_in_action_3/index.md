@@ -34,7 +34,7 @@ Temporal的权限控制模型也比较类似, 它提供了针对API调用的插�
 
 ### ClaimMapper
 
-要想对调用方用户进行权限控制, 首先要给调用方定义一个角色. Temporal用`ClaimMapper`接口来根据用户身份认证信息获取用户的角色.
+要想对调用方用户进行权限控制, 首先获取调用方拥有的权限. Temporal用`ClaimMapper`接口来获取调用方拥有的权限.
 
 ```go
 type ClaimMapper interface {
@@ -42,7 +42,7 @@ type ClaimMapper interface {
 }
 ```
 
-`GetClaims`方法的参数为AuthInfo, 这里的Auth指的是认证 (Authn), 即通过身份认证结果获取调用方的角色. `AuthInfo`结构定义如下:
+`GetClaims`方法的参数为AuthInfo, 这里的Auth指的是认证 (Authn), 即通过身份认证结果获取调用方的权限信息. `AuthInfo`结构定义如下:
 
 ```go
 // Authentication information from subject's JWT token or/and mTLS certificate
@@ -54,7 +54,7 @@ type AuthInfo struct {
 }
 ```
 
-返回值`Claims`结构表示针对调用方的身份, 授予调用方的角色 (也即官方文档中提到的权限声明). 这里需要注意的是, `Authorizer`已经假定, 调用方的身份是经过认证的真实身份. 对非信任的系统来说, 如果没有严格的认证机制保证用户身份的真实性, 权限控制也就无从谈起. `Claims`结构定义如下:
+返回值`Claims`结构表示针对调用方的身份, 授予调用方的权限. 这里需要注意的是, `Authorizer`已经假定, 调用方的身份是经过认证的真实身份. 对非信任的系统来说, 如果没有严格的认证机制保证用户身份的真实性, 权限控制也就无从谈起. `Claims`结构定义如下:
 
 ```go
 type Claims struct {
@@ -139,6 +139,8 @@ type CallTarget struct {
 ## 总结一下
 
 对于内网用户来说, 网络安全性中的`流量加密`, `身份认证`往往已经通过网络接入层解决了, 而对Temporal本身资源的细粒度权限控制, 才是我们应该关注的重点. [Temporal文档][1]也确实是花了比较大的篇幅介绍它的权限控制机制. 通过抽象的`ClaimMapper`和`Authorizer`插件接口, 以及4种Role角色定义, Temporal实现了对调用方访问其资源的细粒度权限控制, 并默认提供了基于JWT的权限控制实现.
+
+然而, 作为Temporal的使用者, 要想实现自定义的权限控制, 需要修改源码并重新编译Temporal, 这似乎并不是一个优雅的扩展方案.
 
 ## 参考资料
 
