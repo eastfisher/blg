@@ -5,7 +5,7 @@ draft = false
 
 [taxonomies]
 tags = ["Temporal", "Workflow"]
-categories = ["Blog"]
+categories = ["Temporal in Action"]
 +++
 
 Temporal原生支持Cassandra, MySQL, PostgreSQL作为后端存储. 考虑到TiDB与MySQL高度兼容, 以及公司的技术栈, 我们尝试使用TiDB作为Temporal的后端存储. 然而在使用过程中还是遇到了一些问题, 在此进行记录 (持续更新中).

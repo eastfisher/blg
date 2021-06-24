@@ -5,7 +5,7 @@ draft = false
 
 [taxonomies]
 tags = ["Temporal", "Workflow"]
-categories = ["Blog"]
+categories = ["Temporal in Action"]
 +++
 
 Temporal作为一个工作流平台, 会直接承载线上业务请求和数据, 其访问安全性应受到严格保证. 对分布式网络应用来说, 访问安全性应至少涵盖3个方面: 流量加密, 身份认证, 权限控制. Temporal在这方面提供了比较完善的可扩展的支持.

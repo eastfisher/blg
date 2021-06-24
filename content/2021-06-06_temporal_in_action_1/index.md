@@ -4,7 +4,7 @@ description = ""
 
 [taxonomies]
 tags = ["Temporal", "Workflow"]
-categories = ["Blog"]
+categories = ["Temporal in Action"]
 +++
 
 在微服务架构体系中, 要完成一个业务流程需要多个微服务共同协作, 在分布式环境中对协作关系的治理和维护是一大难题. Temporal作为新兴的工作流编排平台, 其设计初衷就是解决上述问题. 这一系列文章, 我们会从 **微服务工作流编排** 问题出发, 到 **Temporal** 解决方案中去, 由浅入深地学习和理解Temporal.
@@ -103,7 +103,7 @@ Temporal提供了对信号 (Signal) 的支持. 通过信号机制, 我们可以�
 
 首先, 通过docker-compose方式在本地启动Temporal Server和它依赖的服务. 这里我们使用MySQL作为存储, 并启动ElasticSearch用于任务检索.
 
-```
+```sh
 > git clone https://github.com/temporalio/docker-compose
 > cd docker-compose
 > docker compose -f docker-compose-mysql-es.yml up
@@ -111,7 +111,7 @@ Temporal提供了对信号 (Signal) 的支持. 通过信号机制, 我们可以�
 
 服务启动完成后, 将[samples-go][5]代码克隆到本地, 执行helloworld示例.
 
-```
+```sh
 > git clone https://github.com/temporalio/samples-go
 > cd samples-go/helloworld
 > go run helloworld/worker/main.go &
