@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+      <title>My Blogs - Go语言的小细节</title>
+
+      
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="https://eastfisher.github.io/blg/atom.xml">
+      
+
+      
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/1.0.1/slideout.min.js"></script>
+          
+      
+
+      
+          <link rel="stylesheet" href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;site.css">
+          
+      
+
+      
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?29971f31a53cc2ca313719de9914d280";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    </head>
+
+    <body>
+        <div class="container">
+
+            <div id="mobile-navbar" class="mobile-navbar">
+              <div class="mobile-header-logo">
+                <a href="/" class="logo">My Blogs</a>
+              </div>
+              <div class="mobile-navbar-icon icon-out">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+
+            <nav id="mobile-menu" class="mobile-menu slideout-menu slideout-menu-left">
+              <ul class="mobile-menu-list">
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg">
+                            Home
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;categories">
+                            Categories
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;tags">
+                            Tags
+                        </a>
+                    </li>
+                
+                    <li class="mobile-menu-item">
+                        <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;about">
+                            About
+                        </a>
+                    </li>
+                
+              </ul>
+            </nav>
+
+            <header id="header">
+                <div class="logo"><a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg">My Blogs</a></div>
+                <nav class="menu">
+                    <ul>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg">
+                                    Home
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;categories">
+                                    Categories
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;tags">
+                                    Tags
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;about">
+                                    About
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="content" id="mobile-panel">
+                    
+
+
+<div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content always-active">
+        <nav id="TableOfContents">
+            <ul>
+                
+                <li>
+                    <a href="https://eastfisher.github.io/blg/golang-the-corner-case/#biao-zhun-ku" class="toc-link">标准库</a>
+                    
+                    <ul>
+                        
+                        <li>
+                            <a href="https://eastfisher.github.io/blg/golang-the-corner-case/#math-randbing-fa-an-quan-ma" class="toc-link">math&#x2F;rand并发安全吗?</a>
+                        </li>
+                        
+                    </ul>
+                    
+                </li>
+                
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<article class="post">
+    
+    <header class="post__header">
+        <h1 class="post__title">
+            <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;golang-the-corner-case&#x2F;">Go语言的小细节</a>
+        </h1>
+        <div class="post__meta">
+            <span class="post__time">2021-07-19</span>
+            
+        </div>
+    </header>
+
+    <div class="post-content">
+      <p>Go语言相对比较简单, 但其中的细节也不少. 本文持续更新, 盘点一下Go语言中的那些小细节, 希望看到这篇文章的你能少踩些坑. ^_^</p>
+<span id="continue-reading"></span><h2 id="biao-zhun-ku">标准库</h2>
+<h3 id="math-randbing-fa-an-quan-ma">math/rand并发安全吗?</h3>
+<p>A: rand包下的函数是并发安全的, 但Rand结构的方法不是并发安全的.</p>
+<p>解释: rand包下面的Rand结构是随机数生成器, 构造时需要传入一个随机源Source. 以<code>Rand.Int63()</code>方法为例:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-go" data-lang="go"><span style="color:#b48ead;">func </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">r </span><span style="color:#c0c5ce;">*</span><span style="color:#b48ead;">Rand</span><span style="color:#c0c5ce;">) </span><span style="color:#8fa1b3;">Int63</span><span style="color:#c0c5ce;">() </span><span style="color:#b48ead;">int64 </span><span style="color:#c0c5ce;">{ </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">r</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">src</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">Int63</span><span style="color:#c0c5ce;">() }
+</span></code></pre>
+<p>其中<code>r.src</code>的实现为<code>rngSource</code>结构, 该结构的<code>Int63()</code>方法实现为:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-go" data-lang="go"><span style="color:#65737e;">// Int63 returns a non-negative pseudo-random 63-bit integer as an int64.
+</span><span style="color:#b48ead;">func </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">rng </span><span style="color:#c0c5ce;">*</span><span style="color:#b48ead;">rngSource</span><span style="color:#c0c5ce;">) </span><span style="color:#8fa1b3;">Int63</span><span style="color:#c0c5ce;">() </span><span style="color:#b48ead;">int64 </span><span style="color:#c0c5ce;">{
+    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">int64</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">Uint64</span><span style="color:#c0c5ce;">() &amp; </span><span style="color:#bf616a;">rngMask</span><span style="color:#c0c5ce;">)
+}
+
+</span><span style="color:#b48ead;">func </span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">rng </span><span style="color:#c0c5ce;">*</span><span style="color:#b48ead;">rngSource</span><span style="color:#c0c5ce;">) </span><span style="color:#8fa1b3;">Uint64</span><span style="color:#c0c5ce;">() </span><span style="color:#b48ead;">uint64 </span><span style="color:#c0c5ce;">{
+    </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">tap</span><span style="color:#c0c5ce;">--
+    </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">tap </span><span style="color:#c0c5ce;">&lt; </span><span style="color:#d08770;">0 </span><span style="color:#c0c5ce;">{
+        </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">tap </span><span style="color:#c0c5ce;">+= </span><span style="color:#bf616a;">rngLen
+    </span><span style="color:#c0c5ce;">}
+
+    </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">feed</span><span style="color:#c0c5ce;">--
+    </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">feed </span><span style="color:#c0c5ce;">&lt; </span><span style="color:#d08770;">0 </span><span style="color:#c0c5ce;">{
+        </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">feed </span><span style="color:#c0c5ce;">+= </span><span style="color:#bf616a;">rngLen
+    </span><span style="color:#c0c5ce;">}
+
+    </span><span style="color:#bf616a;">x </span><span style="color:#c0c5ce;">:= </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">vec</span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">feed</span><span style="color:#c0c5ce;">] + </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">vec</span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">tap</span><span style="color:#c0c5ce;">]
+    </span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">vec</span><span style="color:#c0c5ce;">[</span><span style="color:#bf616a;">rng</span><span style="color:#c0c5ce;">.</span><span style="color:#bf616a;">feed</span><span style="color:#c0c5ce;">] = </span><span style="color:#bf616a;">x
+    </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">uint64</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">x</span><span style="color:#c0c5ce;">)
+}
+</span></code></pre>
+<p>很明显, <code>Uint64()</code>不是并发安全的, 涉及到内部数据的多次读写操作. 当多个goroutine并发调用Rand的获取随机数相关方法时, 会产生数据竞争, 导致返回的数据出现问题. 例如<code>Int63()</code>正常应该返回一个非负的63位随机整数, 但在并发获取时有可能出现返回负数.</p>
+<p>标准库中的相关函数, 是在访问全局rand对象时加锁了. <strong>个人觉得这样设计API比较坑, 缺乏一致性</strong> (提供的函数是并发安全的, 而其结构本身又不是并发安全的).</p>
+
+    </div>
+
+    
+<div class="post-comment">
+  <script src="https://utteranc.es/client.js"
+    repo="eastfisher/blg"
+    issue-term="pathname"
+    label="Comment"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+</div>
+
+
+    <div class="post-footer">
+        
+            
+                <div class="post-tags">
+                    
+                        <a href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;tags&#x2F;golang&#x2F;">#Golang</a>
+                    
+                </div>
+            
+            
+                <div class="post-nav">
+                    
+                        <a class="previous" href="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;temporal-in-action-4&#x2F;">‹ Temporal实战 (4) TiDB兼容性</a>
+                    
+                    
+                    
+                    
+                </div>
+            
+
+        
+
+    </div>
+
+    
+    
+</article>
+
+
+                </div>
+            </main>
+
+            
+            
+        </div>
+
+      
+
+          <script type="text/javascript" src="https:&#x2F;&#x2F;eastfisher.github.io&#x2F;blg&#x2F;even.js" ></script>
+      
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+    </body>
+
+</html>
