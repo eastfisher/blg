@@ -126,6 +126,12 @@ func main() {
 
 Dingo提供了父子容器的功能, 父容器中的Bean对子容器可见, 反之不成立. 这与Spring MVC和Spring的父子容器是一样的: Spring父容器中的Component, Service对MVC容器的Controller可见, 而MVC容器的Controller对Service不可见.
 
+### 依赖注入正确性
+
+对struct中的接口属性字段, 可使用无名inject进行注入. 原因: 必须声明interface到某个具体类型的binding后, dingo才能处理.
+
+对struct中的非接口属性字段, 建议使用具名inject进行注入. 原因: 对非接口对象, dingo如果找不到任何提供该对象的工厂, 则会使用反射创建空值对象. 这有可能导致该对象并没有正确创建. 而对于具名inject注入, 如果不显式声明binding, 则会在依赖注入过程中由于找不到对应annotation的bean而报错, 从而对注入的正确性进行约束.
+
 ## 总结一下
 
 当时在发现Dingo时我是非常惊喜的, 它恰到好处地解决了我在使用Go编写复杂业务代码时的依赖注入问题. Dingo提供的API非常符合Java转Go开发者的使用习惯. 而上面提到的坑, 与其说是踩坑, 不如说是对Go的反射机制理解不足 (以及Go的反射确实比较烂? 逃...). 我们已经在生产环境中使用Dingo进行微服务开发, 体验良好.
